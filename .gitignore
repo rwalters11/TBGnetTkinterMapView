@@ -1,8 +1,6 @@
 .DS_Store
 samples/
 __pycache__/
-PI_*
-!PI_xpAutoPause_Server*
 .*symlink
 .log
 
@@ -71,4 +69,3 @@ compile_commands.json
 *creator.user*
 
 *_qmlcache.qrc
-xpAutoPauseClient.log
