@@ -3,14 +3,14 @@ import sys
 from typing import TYPE_CHECKING, Callable
 
 if TYPE_CHECKING:
-    from .map_widget import TkinterMapView
+    from .map_widget import TkinterAvMapView
 
 from .utility_functions import decimal_to_osm, osm_to_decimal  # noqa: F401
 
 
 class CanvasPolygon:
     def __init__(self,
-                 map_widget: "TkinterMapView",
+                 map_widget: "TkinterAvMapView",
                  position_list: list,
                  outline_color: str = "#3e97cb",
                  fill_color: str = "gray95",

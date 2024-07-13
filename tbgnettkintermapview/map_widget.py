@@ -32,8 +32,11 @@ class TkinterAvMapView(tkinter.Frame):
                  database_path: str = None,
                  use_database_only: bool = False,
                  max_zoom: int = 19,
+                 callback: Callable = None,
                  **kwargs):
         super().__init__(*args, **kwargs)
+        
+        self.zoom_callback = callback
 
         self.running = True
 
@@ -874,6 +877,9 @@ class TkinterAvMapView(tkinter.Frame):
             self.zoom = self.max_zoom
         if self.zoom < self.min_zoom:
             self.zoom = self.min_zoom
+            
+        # Return new zoom value to main
+        self.zoom_callback(self.zoom)
 
         current_tile_mouse_position = decimal_to_osm(*current_deg_mouse_position, round(self.zoom))
 
@@ -927,3 +933,4 @@ class TkinterAvMapView(tkinter.Frame):
     def button_zoom_out(self):
         # zoom out of middle of map
         self.set_zoom(self.zoom - 1, relative_pointer_x=0.5, relative_pointer_y=0.5)
+

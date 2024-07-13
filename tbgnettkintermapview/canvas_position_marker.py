@@ -3,14 +3,14 @@ import sys
 from typing import TYPE_CHECKING, Callable
 
 if TYPE_CHECKING:
-    from .map_widget import TkinterMapView
+    from .map_widget import TkinterAvMapView
 
 from .utility_functions import decimal_to_osm, osm_to_decimal  # noqa: F401
 
 
 class CanvasPositionMarker:
     def __init__(self,
-                 map_widget: "TkinterMapView",
+                 map_widget: "TkinterAvMapView",
                  position: tuple,
                  text: str = None,
                  text_color: str = "#652A22",
