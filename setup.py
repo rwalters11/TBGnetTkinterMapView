@@ -8,15 +8,15 @@ from setuptools import setup
 # 4. python3.10 -m build
 # 5. python3.10 -m twine upload dist/*
 
-setup(name="tkintermapview",
-      version="1.29",
-      author="Tom Schimansky",
+setup(name="tbgnettkintermapview",
+      version="1.29.0.1",
+      author="Richard Walters",
       license="Creative Commons Zero v1.0 Universal",
       url="https://github.com/TomSchimansky/TkinterMapView",
-      description="A python Tkinter widget to display image tile maps like OpenStreetMap or Satellite Images.",
+      description="Customised version of a python Tkinter widget to display image tile maps like OpenStreetMap or Satellite Images.",
       long_description_content_type="text/markdown",
       long_description="**Detailed Information: https://github.com/TomSchimansky/TkinterMapView**",
-      packages=["tkintermapview"],
+      packages=["tbgnettkintermapview"],
       classifiers=["Operating System :: OS Independent",
                    "Programming Language :: Python :: 3",
                    "License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication"],

@@ -5,9 +5,9 @@ import threading
 import requests
 import sys
 import math
-from PIL import Image, UnidentifiedImageError
+from PIL import Image, UnidentifiedImageError  # noqa: F401
 
-from .utility_functions import decimal_to_osm, osm_to_decimal
+from .utility_functions import decimal_to_osm, osm_to_decimal  # noqa: F401
 
 
 class OfflineLoader:
@@ -54,7 +54,7 @@ class OfflineLoader:
                 self.lock.release()
                 zoom, x, y = task[0], task[1], task[2]
 
-                check_existence_cmd = f"""SELECT t.zoom, t.x, t.y FROM tiles t WHERE t.zoom=? AND t.x=? AND t.y=? AND server=?;"""
+                check_existence_cmd = f"""SELECT t.zoom, t.x, t.y FROM tiles t WHERE t.zoom=? AND t.x=? AND t.y=? AND server=?;"""  # noqa: F541
                 try:
                     db_cursor.execute(check_existence_cmd, (zoom, x, y, self.tile_server))
                 except sqlite3.OperationalError:
@@ -144,7 +144,7 @@ class OfflineLoader:
         # insert tile_server if not in database
         db_cursor.execute(f"SELECT * FROM server s WHERE s.url='{self.tile_server}';")
         if len(db_cursor.fetchall()) == 0:
-            db_cursor.execute(f"INSERT INTO server (url, max_zoom) VALUES (?, ?);", (self.tile_server, self.max_zoom))
+            db_cursor.execute(f"INSERT INTO server (url, max_zoom) VALUES (?, ?);", (self.tile_server, self.max_zoom))  # noqa: F541
             db_connection.commit()
 
         # create threads
@@ -169,7 +169,7 @@ class OfflineLoader:
             self.lock.release()
 
             print(f"[save_offline_tiles] zoom: {zoom:<2}  tiles: {number_of_tasks:<8}  storage: {math.ceil(number_of_tasks * 8 / 1024):>6} MB", end="")
-            print(f"  progress: ", end="")
+            print(f"  progress: ", end="")  # noqa: F541
 
             result_counter = 0
             loading_bar_length = 0
@@ -200,7 +200,7 @@ class OfflineLoader:
         print("", end="\n\n")
 
         # insert loading section in database
-        db_cursor.execute(f"INSERT INTO sections (position_a, position_b, zoom_a, zoom_b, server) VALUES (?, ?, ?, ?, ?);",
+        db_cursor.execute(f"INSERT INTO sections (position_a, position_b, zoom_a, zoom_b, server) VALUES (?, ?, ?, ?, ?);",  # noqa: F541
                           (str(position_b), str(position_b), zoom_a, zoom_b, self.tile_server))
         db_connection.commit()
 

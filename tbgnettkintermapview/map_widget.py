@@ -23,7 +23,7 @@ from .canvas_path import CanvasPath
 from .canvas_polygon import CanvasPolygon
 
 
-class TkinterMapView(tkinter.Frame):
+class TkinterAvMapView(tkinter.Frame):
     def __init__(self, *args,
                  width: int = 300,
                  height: int = 200,
@@ -51,7 +51,7 @@ class TkinterMapView(tkinter.Frame):
                     self.bg_color: str = self.master._apply_appearance_mode(self.master.cget("fg_color"))
                 # customtkinter version <=4.6.3
                 elif hasattr(self.master, "fg_color"):
-                    if type(self.master.fg_color) == tuple or type(self.master.fg_color) == list:
+                    if type(self.master.fg_color) is tuple or type(self.master.fg_color) is list:
                         self.bg_color: str = self.master.fg_color[self.master._appearance_mode]
                     else:
                         self.bg_color: str = self.master.fg_color
@@ -357,7 +357,7 @@ class TkinterMapView(tkinter.Frame):
             if text is None:
                 try:
                     text = result.geojson['features'][0]['properties']['address']
-                except:
+                except:  # noqa: E722
                     text = address_string
 
             return self.set_position(*result.latlng, marker=marker, text=text, **kwargs)
@@ -565,7 +565,7 @@ class TkinterMapView(tkinter.Frame):
             # result queue structure: [((zoom, x, y), corresponding canvas tile object, tile image), ... ]
             result = self.image_load_queue_results.pop(0)
 
-            zoom, x, y = result[0][0], result[0][1], result[0][2]
+            zoom, x, y = result[0][0], result[0][1], result[0][2]  # noqa: F841
             canvas_tile = result[1]
             image = result[2]
 
