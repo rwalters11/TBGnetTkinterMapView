@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Callable
 if TYPE_CHECKING:
     from .map_widget import TkinterMapView
 
-from .utility_functions import decimal_to_osm, osm_to_decimal
+from .utility_functions import decimal_to_osm, osm_to_decimal  # noqa: F401
 
 
 class CanvasPositionMarker:

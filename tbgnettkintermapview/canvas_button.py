@@ -4,11 +4,11 @@ import math
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from .map_widget import TkinterMapView
+    from .map_widget import TkinterAvMapView
 
 
 class CanvasButton:
-    def __init__(self, map_widget: "TkinterMapView", canvas_position, text="", command=None):
+    def __init__(self, map_widget: "TkinterAvMapView", canvas_position, text="", command=None):
         self.map_widget = map_widget
         self.canvas_position = canvas_position
 
