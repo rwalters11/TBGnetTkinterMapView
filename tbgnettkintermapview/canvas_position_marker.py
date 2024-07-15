@@ -31,6 +31,7 @@ class CanvasPositionMarker:
         self.marker_color_outside = marker_color_outside
         self.text = text
         self.text_y_offset = 0  # vertical offset pf text from marker position in px
+        self.text_x_offset = 0  # horizontal offset pf text from marker position in px
         self.image = image
         self.icon = icon
         self.icon_anchor = icon_anchor  # can be center, n, nw, w, sw, s, ew, e, ne
@@ -55,6 +56,24 @@ class CanvasPositionMarker:
             self.font = font
 
         self.calculate_text_y_offset()
+        self.calculate_text_x_offset()
+        
+    def calculate_text_x_offset(self):
+        if self.icon is not None:
+            if self.icon_anchor in ("center", "e", "w"):
+                self.text_x_offset = round(self.icon.width() / 2) + 5
+            elif self.icon_anchor in ("nw", "n", "ne"):
+                self.text_x_offset = 5
+            elif self.icon_anchor in ("sw", "s", "se"):
+                self.text_x_offset = -self.icon.width() + 5
+            else:
+                raise ValueError(f"CanvasPositionMarker: wrong anchor value: {self.icon_anchor}")
+        else:
+            self.text_x_offset = -56        
+        
+        # DEBUGGING
+        #print("x-offset: " + str(self.text_x_offset))    
+        
 
     def calculate_text_y_offset(self):
         if self.icon is not None:
@@ -65,9 +84,12 @@ class CanvasPositionMarker:
             elif self.icon_anchor in ("sw", "s", "se"):
                 self.text_y_offset = -self.icon.height() - 5
             else:
-                raise ValueError(f"CanvasPositionMarker: wring anchor value: {self.icon_anchor}")
+                raise ValueError(f"CanvasPositionMarker: wrong anchor value: {self.icon_anchor}")
         else:
             self.text_y_offset = -56
+            
+        # DEBUGGING
+        #print("y-offset: " + str(self.text_y_offset))    
 
     def delete(self):
         if self in self.map_widget.canvas_marker_list:
@@ -182,16 +204,30 @@ class CanvasPositionMarker:
 
                 if self.text is not None:
                     if self.canvas_text is None:
-                        self.canvas_text = self.map_widget.canvas.create_text(canvas_pos_x, canvas_pos_y + self.text_y_offset,
-                                                                              anchor=tkinter.S,
+                        self.canvas_text = self.map_widget.canvas.create_text(canvas_pos_x + self.text_x_offset,
+                                                                              #canvas_pos_x, 
+                                                                              #canvas_pos_y + self.text_y_offset,
+                                                                              canvas_pos_y,
+                                                                              #anchor=tkinter.S,
+                                                                              anchor=tkinter.W,
                                                                               text=self.text,
                                                                               fill=self.text_color,
                                                                               font=self.font,
                                                                               tag=("marker", "marker_text"))
+                        '''
+                        #Finding the width of the text item
+                        bounds= self.map_widget.canvas.bbox(self.canvas_text)
+                        width= abs(bounds[3]-bounds[0])
+                        #print("textWidth: " + str(width))
+                        '''
+                        
+                        self.map_widget.canvas.coords(self.canvas_text, canvas_pos_x + self.text_x_offset, canvas_pos_y)
+                        
                         if self.command is not None:
                             self.map_widget.canvas.tag_bind(self.canvas_text, "<Enter>", self.mouse_enter)
                             self.map_widget.canvas.tag_bind(self.canvas_text, "<Leave>", self.mouse_leave)
                             self.map_widget.canvas.tag_bind(self.canvas_text, "<Button-1>", self.click)
+                            
                     else:
                         self.map_widget.canvas.coords(self.canvas_text, canvas_pos_x, canvas_pos_y + self.text_y_offset)
                         self.map_widget.canvas.itemconfig(self.canvas_text, text=self.text)
