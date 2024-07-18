@@ -257,6 +257,14 @@ class TkinterAvMapView(tkinter.Frame):
         self.canvas.delete("tile")
         self.image_load_queue_results = []
         self.draw_initial_array()
+        
+    # TBGnet Custom function to return TL & BR coords of visible map 
+    def get_bounding_box(self):
+         
+         TL = osm_to_decimal(self.upper_left_tile_pos[0], self.upper_left_tile_pos[1], round(self.zoom))
+         BR = osm_to_decimal(self.lower_right_tile_pos[0], self.lower_right_tile_pos[1], round(self.zoom))
+    
+         return TL, BR
 
     def get_position(self) -> tuple:
         """ returns current middle position of map widget in decimal coordinates """
