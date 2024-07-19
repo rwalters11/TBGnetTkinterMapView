@@ -14,6 +14,7 @@ import geocoder
 from PIL import Image, ImageTk
 from typing import Callable, List, Dict, Union, Tuple
 from functools import partial
+from pprint import pprint
 
 from .canvas_position_marker import CanvasPositionMarker
 from .canvas_tile import CanvasTile
@@ -258,8 +259,11 @@ class TkinterAvMapView(tkinter.Frame):
         self.image_load_queue_results = []
         self.draw_initial_array()
         
-    # TBGnet Custom function to return TL & BR coords of visible map 
+    # TBGnet Custom function to return TL & BR coords of visible
     def get_bounding_box(self):
+         
+         # update idle-tasks to make sure current dimensions are correct
+         self.update_idletasks()
          
          TL = osm_to_decimal(self.upper_left_tile_pos[0], self.upper_left_tile_pos[1], round(self.zoom))
          BR = osm_to_decimal(self.lower_right_tile_pos[0], self.lower_right_tile_pos[1], round(self.zoom))
@@ -374,6 +378,13 @@ class TkinterAvMapView(tkinter.Frame):
             return self.set_position(*result.latlng, marker=marker, text=text, **kwargs)
         else:
             return False
+       
+    def get_marker_list(self):
+         
+        # DEBUGGING
+        pprint(self.canvas_marker_list)
+        
+        return self.canvas_marker_list
 
     def set_marker(self, deg_x: float, deg_y: float, text: str = None, **kwargs) -> CanvasPositionMarker:
         marker = CanvasPositionMarker(self, (deg_x, deg_y), text=text, **kwargs)
