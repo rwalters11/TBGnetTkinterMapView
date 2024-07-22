@@ -263,7 +263,7 @@ class TkinterAvMapView(tkinter.Frame):
     def get_bounding_box(self):
          
          # update idle-tasks to make sure current dimensions are correct
-         self.update_idletasks()
+         self.update_idletasks
          
          TL = osm_to_decimal(self.upper_left_tile_pos[0], self.upper_left_tile_pos[1], round(self.zoom))
          BR = osm_to_decimal(self.lower_right_tile_pos[0], self.lower_right_tile_pos[1], round(self.zoom))
